@@ -1,0 +1,90 @@
+version: '3'
+services:
+  chatbuild:
+    image: elixir
+    command: "/compile.sh"
+    environment:
+    - MIX_ENV=dev
+    volumes:
+    - ./deps:/usr/src/chat/deps
+    - ../chat:/usr/src/chat
+    - ./.mix:/root/.mix
+    - ./compile.sh:/compile.sh
+    working_dir: /usr/src/chat
+
+  chat:
+    image: elixir
+    command: "/start.sh"
+    environment:
+    - MIX_ENV=dev
+    volumes:
+    - ./deps:/usr/src/chat/deps
+    - ../chat:/usr/src/chat
+    - ../chat/config/config.exs:/usr/src/chat/config/config.exs:ro
+    - ./.mix:/root/.mix
+    - ./start.sh:/start.sh
+    working_dir: /usr/src/chat
+
+  postgresql:
+    image: sameersbn/postgresql:9.6-2
+    restart: always
+    environment:
+    - DB_USER=redmine
+    - DB_PASS=redmine
+    - DB_NAME=redmine_production
+    volumes:
+    - ./redmine/postgresql:/var/lib/postgresql
+
+  redmine:
+    image: sameersbn/redmine:3.3.2-1
+    restart: always
+    depends_on:
+    - postgresql
+    - chat
+    environment:
+    - XMPP_BOT_STARTUP=1
+    - TZ=Asia/Shanghai
+    - DB_ADAPTER=postgresql
+    - DB_HOST=postgresql
+    - DB_PORT=5432
+    - DB_USER=redmine
+    - DB_PASS=redmine
+    - DB_NAME=redmine_production
+
+    - REDMINE_PORT=80
+    - REDMINE_HTTPS=true
+    - REDMINE_RELATIVE_URL_ROOT=
+    - REDMINE_SECRET_TOKEN=randomtokenaaa
+
+    - REDMINE_SUDO_MODE_ENABLED=false
+    - REDMINE_SUDO_MODE_TIMEOUT=15
+
+    - REDMINE_CONCURRENT_UPLOADS=2
+
+    - REDMINE_BACKUP_SCHEDULE=daily
+    - REDMINE_BACKUP_EXPIRY=
+    - REDMINE_BACKUP_TIME=01:00
+
+    - SMTP_ENABLED=true
+    - SMTP_METHOD=smtp
+    - SMTP_DOMAIN=163.com
+    - SMTP_HOST=smtp.163.com
+    - SMTP_PORT=25
+    - SMTP_USER=admin@admin.com
+    - SMTP_PASS=bluesky
+    - SMTP_STARTTLS=false
+    - SMTP_AUTHENTICATION=:login
+
+    - IMAP_ENABLED=false
+    - IMAP_HOST=imap.gmail.com
+    - IMAP_PORT=993
+    - IMAP_USER=mailer@example.com
+    - IMAP_PASS=password
+    - IMAP_SSL=true
+    - IMAP_INTERVAL=30
+
+    ports:
+    - "8014:80"
+    volumes:
+    - ./redmine/redmine:/home/redmine/data
+    - ./redmine_ejabberd/ruby/redmine_ejabberd_notifications:/home/redmine/data/plugins/redmine_ejabberd_notifications
