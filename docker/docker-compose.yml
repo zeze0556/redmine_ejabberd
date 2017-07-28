@@ -1,0 +1,29 @@
+version: '3'
+services:
+  build:
+    image: elixir
+    command: "/compile.sh"
+    environment:
+    - MIX_ENV=dev
+    volumes:
+    - ./deps:/usr/src/chat/deps
+    - ../chat:/usr/src/chat
+    - ./.mix:/root/.mix
+    - ./compile.sh:/compile.sh
+    working_dir: /usr/src/chat
+
+  elixir:
+    image: elixir
+    command: "/start.sh"
+    environment:
+    - MIX_ENV=dev
+    volumes:
+    - ./deps:/usr/src/chat/deps
+    - ../chat:/usr/src/chat
+    - ../chat/config/config.exs:/usr/src/chat/config/config.exs:ro
+    - ./.mix:/root/.mix
+    - ./start.sh:/start.sh
+    working_dir: /usr/src/chat
+    ports:
+    - "8080:8080"
+

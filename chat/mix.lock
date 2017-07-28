@@ -1,0 +1,12 @@
+%{"connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], []},
+  "cowboy": {:git, "https://github.com/ninenines/cowboy", "238ac3afc661046fb554a8bbb62d2b9912023247", []},
+  "cowlib": {:git, "https://github.com/ninenines/cowlib", "11e07d3c2b164d06ad35188d83ad70e7501396db", [ref: "2.0.0-rc.1"]},
+  "fast_xml": {:hex, :fast_xml, "1.1.23", "1e7b311d3353806ee832d7630fef57713987cea40a7020669cf057d537de4721", [:rebar3], [{:p1_utils, "1.0.9", [hex: :p1_utils, optional: false]}]},
+  "hedwig": {:hex, :hedwig, "1.0.0", "effbb160b9b270cb62ac1b2d6041b4ac731a21b0fc048dd2c35840245fdc0f22", [:mix], []},
+  "hedwig_xmpp": {:hex, :hedwig_xmpp, "1.0.0", "e80be354d383225b64d7b81620f079715a95923b1fd6c70bf9b9ddb06d036462", [:mix], [{:hedwig, "~> 1.0", [hex: :hedwig, optional: false]}, {:romeo, "~> 0.7", [hex: :romeo, optional: false]}]},
+  "httpotion": {:hex, :httpotion, "3.0.2", "525b9bfeb592c914a61a8ee31fdde3871e1861dfe805f8ee5f711f9f11a93483", [:mix], [{:ibrowse, "~> 4.2", [hex: :ibrowse, optional: false]}]},
+  "ibrowse": {:hex, :ibrowse, "4.4.0", "2d923325efe0d2cb09b9c6a047b2835a5eda69d8a47ed6ff8bc03628b764e991", [:rebar3], []},
+  "jsx": {:git, "https://github.com/talentdeficit/jsx", "d4b6d3dc5fd9e759ff7a0c476654ea5124f5bae9", []},
+  "p1_utils": {:hex, :p1_utils, "1.0.9", "c33c230efbeb4dcc02911161e3cb1a93231a92df15e3fc97de655a9271a26d9f", [:rebar3], []},
+  "ranch": {:git, "https://github.com/ninenines/ranch", "55c2a9d623454f372a15e99721a37093d8773b48", [ref: "1.4.0"]},
+  "romeo": {:hex, :romeo, "0.7.0", "17e46830e49eff4d70e59147e808cd3f5f79912bb90a006afe5a8bb4355c29b3", [:mix], [{:connection, "~> 1.0", [hex: :connection, optional: false]}, {:fast_xml, "~> 1.1", [hex: :fast_xml, optional: false]}]}}
