@@ -17,6 +17,8 @@ services:
     command: "/start.sh"
     environment:
     - MIX_ENV=dev
+    depends_on:
+    - chatbuild
     volumes:
     - ./deps:/usr/src/chat/deps
     - ../chat:/usr/src/chat
