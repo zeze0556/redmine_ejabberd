@@ -65,9 +65,19 @@ defmodule Chat.Robot do
   end
 
   def http_get(url, api_key) do
-    HTTPotion.request(:get, url, [headers: ["Content-Type": "application/json",
+    case HTTPotion.request(:get, url, [headers: ["Content-Type": "application/json",
                                                                           "X-Redmine-API-Key": api_key
-                                                                         ]])
+                                                ]]) do
+      %HTTPotion.ErrorResponse{} ->
+        :error
+      r ->
+        case :jsx.is_json(r.body) do
+          true ->
+            r
+          _ ->
+            :error
+        end
+    end
   end
 
   def http_put(url, apikey, body) do
@@ -93,7 +103,7 @@ defmodule Chat.Robot do
   def get_user(state) do
     r = http_get("#{state[:redmine_url]}users.json", state[:api_key])
     case r do
-      %HTTPotion.ErrorResponse{} ->
+      :error ->
         :error
       _ ->
         users = :jsx.decode(r.body,[:return_maps])["users"]
@@ -106,7 +116,7 @@ defmodule Chat.Robot do
   def get_project(state) do
     r = http_get("#{state[:redmine_url]}projects.json", state[:api_key])
     case r do
-      %HTTPotion.ErrorResponse{} ->
+      :error ->
         :error
       _ ->
         users = :jsx.decode(r.body,[:return_maps])["projects"]
@@ -119,7 +129,7 @@ defmodule Chat.Robot do
   def get_issus_status(state) do
     r = http_get("#{state[:redmine_url]}issue_statuses.json", state[:api_key])
     case r do
-      %HTTPotion.ErrorResponse{} ->
+      :error ->
         :error
       _ ->
         users = :jsx.decode(r.body,[:return_maps])["issue_statuses"]
@@ -132,7 +142,7 @@ defmodule Chat.Robot do
   def get_user_apikey(user, state) do
     r = http_get("#{state[:redmine_url]}users/#{user["id"]}.json", state[:api_key])
     case r do
-      %HTTPotion.ErrorResponse{} ->
+      :error ->
         :error
       _ ->
         users = :jsx.decode(r.body,[:return_maps])["user"]
